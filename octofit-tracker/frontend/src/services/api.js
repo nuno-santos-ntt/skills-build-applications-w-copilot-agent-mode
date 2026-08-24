@@ -17,12 +17,16 @@ export function normalizeCollection(response) {
   return candidates.find(Array.isArray) ?? []
 }
 
-export async function fetchCollection(resource) {
-  const response = await fetch(getEndpointUrl(resource))
+export async function fetchCollectionFromUrl(endpointUrl) {
+  const response = await fetch(endpointUrl)
 
   if (!response.ok) {
-    throw new Error(`Request failed for ${resource}: ${response.status}`)
+    throw new Error(`Request failed for ${endpointUrl}: ${response.status}`)
   }
 
   return normalizeCollection(await response.json())
+}
+
+export async function fetchCollection(resource) {
+  return fetchCollectionFromUrl(getEndpointUrl(resource))
 }

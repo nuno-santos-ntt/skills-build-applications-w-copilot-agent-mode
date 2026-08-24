@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import DataState from './DataState.jsx'
-import { fetchCollection } from '../services/api.js'
+import { codespaceName, fetchCollectionFromUrl, getEndpointUrl } from '../services/api.js'
+
+const leaderboardEndpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`
+  : getEndpointUrl('leaderboard')
 
 function Leaderboard() {
   const [entries, setEntries] = useState([])
@@ -12,7 +16,7 @@ function Leaderboard() {
 
     async function loadLeaderboard() {
       try {
-        const data = await fetchCollection('leaderboard')
+        const data = await fetchCollectionFromUrl(leaderboardEndpoint)
         if (isMounted) {
           setEntries(data)
         }

@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import DataState from './DataState.jsx'
-import { fetchCollection } from '../services/api.js'
+import { codespaceName, fetchCollectionFromUrl, getEndpointUrl } from '../services/api.js'
+
+const activitiesEndpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+  : getEndpointUrl('activities')
 
 function Activities() {
   const [activities, setActivities] = useState([])
@@ -12,7 +16,7 @@ function Activities() {
 
     async function loadActivities() {
       try {
-        const data = await fetchCollection('activities')
+        const data = await fetchCollectionFromUrl(activitiesEndpoint)
         if (isMounted) {
           setActivities(data)
         }

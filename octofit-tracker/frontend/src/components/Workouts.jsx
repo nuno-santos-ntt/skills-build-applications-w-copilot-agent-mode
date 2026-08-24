@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import DataState from './DataState.jsx'
-import { fetchCollection } from '../services/api.js'
+import { codespaceName, fetchCollectionFromUrl, getEndpointUrl } from '../services/api.js'
+
+const workoutsEndpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+  : getEndpointUrl('workouts')
 
 function Workouts() {
   const [workouts, setWorkouts] = useState([])
@@ -12,7 +16,7 @@ function Workouts() {
 
     async function loadWorkouts() {
       try {
-        const data = await fetchCollection('workouts')
+        const data = await fetchCollectionFromUrl(workoutsEndpoint)
         if (isMounted) {
           setWorkouts(data)
         }

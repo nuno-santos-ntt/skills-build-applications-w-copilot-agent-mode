@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import DataState from './DataState.jsx'
-import { fetchCollection } from '../services/api.js'
+import { codespaceName, fetchCollectionFromUrl, getEndpointUrl } from '../services/api.js'
+
+const usersEndpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+  : getEndpointUrl('users')
 
 function Users() {
   const [users, setUsers] = useState([])
@@ -12,7 +16,7 @@ function Users() {
 
     async function loadUsers() {
       try {
-        const data = await fetchCollection('users')
+        const data = await fetchCollectionFromUrl(usersEndpoint)
         if (isMounted) {
           setUsers(data)
         }

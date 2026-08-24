@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import DataState from './DataState.jsx'
-import { fetchCollection } from '../services/api.js'
+import { codespaceName, fetchCollectionFromUrl, getEndpointUrl } from '../services/api.js'
+
+const teamsEndpoint = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+  : getEndpointUrl('teams')
 
 function Teams() {
   const [teams, setTeams] = useState([])
@@ -12,7 +16,7 @@ function Teams() {
 
     async function loadTeams() {
       try {
-        const data = await fetchCollection('teams')
+        const data = await fetchCollectionFromUrl(teamsEndpoint)
         if (isMounted) {
           setTeams(data)
         }
